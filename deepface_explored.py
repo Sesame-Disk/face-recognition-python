@@ -1,7 +1,10 @@
 from deepface import DeepFace
+import cv2
 import matplotlib.pyplot as plt
+import imshowpair
+import pprint
 
-images_path = "/Users/umar/Downloads/6thSem/AI_Lab/images/"
+images_path = "deepface_dataset/"
 models = [
     "VGG-Face",
     "Facenet",
@@ -14,31 +17,40 @@ models = [
 ]
 
 backends = ["opencv", "ssd", "dlib", "mtcnn", "retinaface", "mediapipe"]
-
-
-def faceVer(img1, img2, model_name):
-    verification = DeepFace.verify(
-        img1_path=images_path + img1,
-        img1_path=images_path + img2,
-        model_name=model_name,
-    )
-    plt.imshow(img1[:, :, ::-1])
-    plt.imshow(img2[:, :, ::-1])
-    plt.show()
-    return verification
-
-
-# def faceAna():
-
-
-f = faceVer("umar_1.jpg", "umar_2.jpg", "Facenet512",)
-df = DeepFace.find(
-    img_path="umar.jpg", db_path="/Users/umar/Downloads/6thSem/AI_Lab/images/"
+img1 = plt.imread("/deepface_datset/taylor1.jpg")
+img2 = plt.imread("/deepface_datset/taylor2.jpg")
+verification = DeepFace.verify(
+    img1_path=img1, img2_path="/deepface_datset/taylor2.jpg", model_name="Dlib"
 )
-demography = DeepFace.analyze(img_path="img4.jpg", detector_backend=backends[4])
-DeepFace.stream(db_path="C:/User/Sefik/Desktop/database")
+imshowpair.imshowpair(img1, img2)
+print(verification)
+
+# df = DeepFace.find(img_path="taylor1.jpg", db_path="deepface_dataset/")
+# demography = DeepFace.analyze(img_path="img4.jpg", detector_backend=backends[4])
+# DeepFace.stream(db_path="deepface_dataset")
+# face = DeepFace.detectFace(
+#     img_path="img9.jpg", target_size=(224, 224), detector_backend=backends[4]
+# )
+# embedding = DeepFace.represent(img_path="img3.jpg", model_name="Facenet")
+
+df = DeepFace.find(img_path="/content/taylor1.jpg", db_path="/content")
+print(df)
+
+analysis = DeepFace.analyze(img_path="/content/img2.jpg", detector_backend=backends[4])
+pp = pprint.PrettyPrinter(indent=4)
+pp.pprint(analysis)
+
+DeepFace.stream(db_path="/content")
 face = DeepFace.detectFace(
-    img_path="img.jpg", target_size=(224, 224), detector_backend=backends[4]
+    img_path="/content/img9.jpg", target_size=(224, 224), detector_backend=backends[4]
 )
-embedding = DeepFace.represent(img_path="img.jpg", model_name="Facenet")
-
+print(face)
+face = DeepFace.detectFace(
+    img_path="/content/taylor2.jpg",
+    target_size=(224, 224),
+    detector_backend=backends[4],
+)
+print(face)
+embedding = DeepFace.represent(img_path="img2.jpg", model_name="Facenet")
+pp = pprint.PrettyPrinter(indent=4)
+pp.pprint(embedding)
