@@ -1,7 +1,9 @@
+# import necessary modules/libraries
 import cv2
 import os
 import face_recognition as fr
 import numpy as np
+from datetime import datetime, timedelta
 
 # create path for images and name extraction
 path = "images/"
@@ -19,16 +21,30 @@ for imgNames in myList:
 # find the face encodings of the images
 
 
-def findencodings(images):
-    encodedlist = []
+def findEncodings(images):
+    encodedList = []
     for img in images:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         encode = fr.face_encodings(img)[0]
-        encodedlist.append(encode)
-    return encodedlist
+        encodedList.append(encode)
+    return encodedList
 
 
-encodedListKnown = findencodings(images)
+# marks attendane in a csv file if a face match is found after face recognition in python
+def markAttendance(name):
+    with open("attendance_list.csv", "r+") as f:
+        myDataList = f.readlines()
+        nameList = []
+        for line in myDataList:
+            entry = line.split(",")
+            nameList.append(entry[0])
+        if name not in nameList:
+            now = datetime.now()
+            dtString = now.strftime("%H:%M:%S")
+            f.writelines(f"\n{name},{dtString}")
+
+
+encodedListKnown = findEncodings(images)
 cap = cv2.VideoCapture(0)
 
 # open video capture and detect a face, find and compare its encodings by the distance, and if the distance is within the min range, show recognition
@@ -76,6 +92,9 @@ while True:
                 print(
                     "Face Match Percentage = ", np.round(face_match_percentage, 4)
                 )  # upto 4 decimal places
+
+                # marks attendance if match found
+                markAttendance(name)
 
     # allow exit from the webcam loop by escape sequence
 
