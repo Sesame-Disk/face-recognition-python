@@ -7,7 +7,7 @@
 #so this pulls this image from dockerhub with this python
 FROM python:3.9.7
 
-#next thing to add face-recognition-python.py to comntainer
+#next thing to add face-recognition-python.py to container
 ADD face-recognition-python-attendance.py .
 
 #get source destination
@@ -17,7 +17,7 @@ ADD face-recognition-python-attendance.py .
 #now install dependencies
 RUN pip install cv2, face_recognition, numpy, datetime 
 
-# specify the entry command when we start contaienr
+# specify the entry command when we start container
 CMD ["python", ".face-recognition-python-attendance.py"]
 
 #be mindful of spacing after CAPS words
