@@ -7,7 +7,7 @@
 #so this pulls this image from dockerhub with this python
 FROM python:3.9.7
 
-#next thing to add face-recognition-python.py to comntainer
+#next thing to add face-recognition-python.py to container
 ADD deepface_explored.py .
 
 #get source destination
@@ -17,7 +17,7 @@ ADD deepface_explored.py .
 #now install dependencies
 RUN pip install deepface, matplotlib
 
-# specify the entry command when we start contaienr
+# specify the entry command when we start container
 CMD ["python", ".deepface_explored.py"]
 
 #be mindful of spacing after CAPS words
